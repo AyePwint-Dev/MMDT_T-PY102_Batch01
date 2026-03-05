@@ -101,15 +101,15 @@ def doubleIt(head):
     return reverseList(head)
 
 
-ll = SinglyLinkedList.from_list([1, 2, 3, 4])
-ll.head = reverseList(ll.head)
-print(ll.to_list())  
+if __name__ == "__main__":
+    ll = SinglyLinkedList.from_list([1, 2, 3, 4])
+    ll.head = reverseList(ll.head)
+    print(ll.to_list())
 
+    ll2 = SinglyLinkedList.from_list([1, 8, 9])
+    ll2.head = doubleIt(ll2.head)
+    print(ll2.to_list())
 
-ll2 = SinglyLinkedList.from_list([1, 8, 9])
-ll2.head = doubleIt(ll2.head)
-print(ll2.to_list())  
-
-ll3 = SinglyLinkedList.from_list([9, 9, 9])
-ll3.head = doubleIt(ll3.head)
-print(ll3.to_list())
+    ll3 = SinglyLinkedList.from_list([9, 9, 9])
+    ll3.head = doubleIt(ll3.head)
+    print(ll3.to_list())
