@@ -85,21 +85,26 @@ def doubleIt(head):
     - Use linked-list operations/pointer logic.
     - Avoid converting the entire list into an integer/string for the core solution.
     """
-    head = reverseList(head)
-    curr = head
+
+    # TODO: Implement
+    # raise NotImplementedError
+
+    head = reverseList (head)
+
+    crt = head
     carry = 0
+    while crt :
+        total = crt.val * 2 + carry
+        crt.val = total % 10
+        carry = total // 10
 
-    while curr is not None:
-        doubled = curr.val * 2 + carry
-        curr.val = doubled % 10
-        carry = doubled // 10
+        if crt.next is None and carry > 0:
+            crt.next = Node(carry)
+            carry = 0 
+            break 
 
-        if curr.next is None and carry:
-            curr.next = Node(carry)
-            carry = 0
-        curr = curr.next
+        crt = crt.next
     return reverseList(head)
-
 
 if __name__ == "__main__":
     ll = SinglyLinkedList.from_list([1, 2, 3, 4])
