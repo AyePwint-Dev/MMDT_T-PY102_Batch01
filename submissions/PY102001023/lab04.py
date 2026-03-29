@@ -95,17 +95,6 @@ def print_all_nodes(root: TreeNode) -> None:
     for value in result:
         print(value)
 
-def find_py_files(root: TreeNode) -> list[str]:
-    result = preorder(root)
-    
-    py_files = []
-
-    for value in result:
-        if value.endswith(".py"):
-            py_files.append(value)
-
-    return py_files
-
 # -------------------------
 # Q3 — Find All Python Files (.py)
 #
