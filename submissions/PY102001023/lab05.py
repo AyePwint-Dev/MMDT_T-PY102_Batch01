@@ -117,5 +117,3 @@ def build_class_bst():
     # Tree height
     max_layer = height(root)
     print(f"Max layers to search a student id: {max_layer}")
-
-build_class_bst()
