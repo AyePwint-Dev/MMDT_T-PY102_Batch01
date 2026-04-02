@@ -2,6 +2,7 @@
 # Do not change the below Code
 # -------------------------
 from typing import Optional, List
+import random
 
 class TreeNode:
     def __init__(self, value: int, left = None, right = None):
@@ -41,11 +42,12 @@ def height(root):
 def _build(nums: List[int], left: int, right: int):
     if left > right:
         return None
-    midNode = (left + right) // 2
-    root = TreeNode(nums[midNode])
-    root.left = _build(nums, left, midNode - 1)
-    root.right = _build(nums, midNode + 1, right)
+    mid = (left + right) // 2
+    root = TreeNode(nums[mid])
+    root.left = _build(nums, left, mid-1)
+    root.right = _build(nums, mid+1, right)
     return root
+
 
 def sorted_array_to_bst(nums: List[int]) -> Optional[TreeNode]:
    new_tree_root = _build(nums, 0, len(nums) - 1)
@@ -67,16 +69,13 @@ def sorted_array_to_bst(nums: List[int]) -> Optional[TreeNode]:
 
 def insert_bst(root: Optional[TreeNode], value: int):
     if root is None:
-        return TreeNode(value)
-    
+        root = TreeNode(value)
     if value == root.value:
         return root
-    
-    if value < root.value:
+    elif value < root.value:
         root.left = insert_bst(root.left, value)
     else:
         root.right = insert_bst(root.right, value)
-    
     return root
 
 # ------------------------------------------------------------
@@ -102,18 +101,16 @@ def insert_bst(root: Optional[TreeNode], value: int):
 # ------------------------------------------------------------
 
 def build_class_bst():
-    init_id = 1019
-    num_stus = 6    
-    #create list
+    init_id = 1001
+    num_stus = 6
     nums = [init_id + k for k in range(num_stus)]
     
-    #building balanced BST for 6 students
     root = sorted_array_to_bst(nums)
-    
-    # out-of-order ID insertion
-    root = insert_bst(root, nums[-1] + 1)    
-    
-    print_all_nodes(root)    
-    # Tree height
-    max_layer = height(root)
-    print(f"Max layers for searching a student id: {max_layer}")
+
+    new_order_ids = [1037, 1023, 1041]
+    for id_val in new_order_ids:
+        if id_val not in nums:
+            root = insert_bst(root, id_val)
+
+    print_all_nodes(root)
+    print(height(root))

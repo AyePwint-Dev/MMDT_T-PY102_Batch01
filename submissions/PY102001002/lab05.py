@@ -39,12 +39,14 @@ def height(root):
 # ------------------------------------------------------------
 
 def _build(nums: List[int], left: int, right: int):
+    #TODO
     if left > right:
         return None
-    midNode = (left + right) // 2
-    root = TreeNode(nums[midNode])
-    root.left = _build(nums, left, midNode - 1)
-    root.right = _build(nums, midNode + 1, right)
+    #sorted_list = sorted(nums)
+    mid = (left + right) // 2
+    root = TreeNode(nums[mid])     
+    root.left = _build(nums, left, mid - 1)     
+    root.right = _build(nums, mid + 1, right)        
     return root
 
 def sorted_array_to_bst(nums: List[int]) -> Optional[TreeNode]:
@@ -66,17 +68,13 @@ def sorted_array_to_bst(nums: List[int]) -> Optional[TreeNode]:
 # ------------------------------------------------------------
 
 def insert_bst(root: Optional[TreeNode], value: int):
+    
     if root is None:
         return TreeNode(value)
-    
-    if value == root.value:
-        return root
-    
     if value < root.value:
-        root.left = insert_bst(root.left, value)
-    else:
-        root.right = insert_bst(root.right, value)
-    
+        root.left = insert_bst(root.left,value)
+    elif value > root.value:
+        root.right = insert_bst(root.right,value )
     return root
 
 # ------------------------------------------------------------
@@ -102,18 +100,14 @@ def insert_bst(root: Optional[TreeNode], value: int):
 # ------------------------------------------------------------
 
 def build_class_bst():
-    init_id = 1019
-    num_stus = 6    
-    #create list
+    init_id = 1001
+    num_stus = 6
     nums = [init_id + k for k in range(num_stus)]
-    
-    #building balanced BST for 6 students
+    #print(nums)
     root = sorted_array_to_bst(nums)
-    
-    # out-of-order ID insertion
-    root = insert_bst(root, nums[-1] + 1)    
-    
-    print_all_nodes(root)    
-    # Tree height
-    max_layer = height(root)
-    print(f"Max layers for searching a student id: {max_layer}")
+    #print(root.value, root.left.value, root.right.value)
+    root =insert_bst(root,1007)
+    print_all_nodes(root)
+    max_iters = height(root)
+    print(max_iters)
+    return root

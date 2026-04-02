@@ -37,15 +37,72 @@ def height(root):
 #       mid = (left + right) // 2
 # - Recursively build left and right subtrees.
 # ------------------------------------------------------------
+"""
+_build(0,6) -> mid=3 -> node 3
+|
+|-- left: _build(0,2) -> mid=1 -> node 1
+|   |
+|   |-- left: _build(0,0) -> mid=0 -> node 0
+|   |   |
+|   |   |-- left:  _build(0,-1) -> None
+|   |   |-- right: _build(1,0)  -> None
+|   |   |
+|   |   `-- return node 0
+|   |
+|   |-- right: _build(2,2) -> mid=2 -> node 2
+|   |   |
+|   |   |-- left:  _build(2,1) -> None
+|   |   |-- right: _build(3,2) -> None
+|   |   |
+|   |   `-- return node 2
+|   |
+|   `-- return node 1
+|
+|-- right: _build(4,6) -> mid=5 -> node 5
+|   |
+|   |-- left: _build(4,4) -> mid=4 -> node 4
+|   |   |
+|   |   |-- left:  _build(4,3) -> None
+|   |   |-- right: _build(5,4) -> None
+|   |   |
+|   |   `-- return node 4
+|   |
+|   |-- right: _build(6,6) -> mid=6 -> node 6
+|   |   |
+|   |   |-- left:  _build(6,5) -> None
+|   |   |-- right: _build(7,6) -> None
+|   |   |
+|   |   `-- return node 6
+|   |
+|   `-- return node 5
+|
+`-- return node 3
+
+        3
+      /   \
+     1     5
+    / \   / \
+   0   2 4   6
+
+"""
 
 def _build(nums: List[int], left: int, right: int):
     if left > right:
         return None
-    midNode = (left + right) // 2
-    root = TreeNode(nums[midNode])
-    root.left = _build(nums, left, midNode - 1)
-    root.right = _build(nums, midNode + 1, right)
+
+    mid = (left + right) // 2
+    root_value = nums[mid]
+    root = TreeNode(root_value)
+
+    left_subtree = _build(nums, left, mid - 1)
+    right_subtree = _build(nums, mid + 1, right)
+
+    root.left = left_subtree
+    root.right = right_subtree
+
     return root
+
+
 
 def sorted_array_to_bst(nums: List[int]) -> Optional[TreeNode]:
    new_tree_root = _build(nums, 0, len(nums) - 1)
@@ -68,15 +125,10 @@ def sorted_array_to_bst(nums: List[int]) -> Optional[TreeNode]:
 def insert_bst(root: Optional[TreeNode], value: int):
     if root is None:
         return TreeNode(value)
-    
-    if value == root.value:
-        return root
-    
     if value < root.value:
         root.left = insert_bst(root.left, value)
-    else:
+    elif value > root.value:
         root.right = insert_bst(root.right, value)
-    
     return root
 
 # ------------------------------------------------------------
@@ -102,18 +154,13 @@ def insert_bst(root: Optional[TreeNode], value: int):
 # ------------------------------------------------------------
 
 def build_class_bst():
-    init_id = 1019
-    num_stus = 6    
-    #create list
-    nums = [init_id + k for k in range(num_stus)]
-    
-    #building balanced BST for 6 students
+    init_id = 1001
+    num_stus = 6
+    nums = list(range(init_id, init_id + num_stus))
     root = sorted_array_to_bst(nums)
-    
-    # out-of-order ID insertion
-    root = insert_bst(root, nums[-1] + 1)    
-    
-    print_all_nodes(root)    
-    # Tree height
-    max_layer = height(root)
-    print(f"Max layers for searching a student id: {max_layer}")
+    additional_ids = [1037, 1018, 1011]
+    for student_id in additional_ids:
+        root = insert_bst(root, student_id)
+    print_all_nodes(root)
+    print(height(root))
+    return root

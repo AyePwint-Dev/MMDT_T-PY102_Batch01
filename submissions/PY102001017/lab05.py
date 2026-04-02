@@ -39,13 +39,15 @@ def height(root):
 # ------------------------------------------------------------
 
 def _build(nums: List[int], left: int, right: int):
+
     if left > right:
         return None
-    midNode = (left + right) // 2
-    root = TreeNode(nums[midNode])
-    root.left = _build(nums, left, midNode - 1)
-    root.right = _build(nums, midNode + 1, right)
-    return root
+    mid = (left + right) // 2
+    node = TreeNode(nums[mid])
+    node.left = _build(nums, left, mid - 1)
+    node.right = _build(nums, mid + 1, right)
+    return node 
+    
 
 def sorted_array_to_bst(nums: List[int]) -> Optional[TreeNode]:
    new_tree_root = _build(nums, 0, len(nums) - 1)
@@ -68,15 +70,12 @@ def sorted_array_to_bst(nums: List[int]) -> Optional[TreeNode]:
 def insert_bst(root: Optional[TreeNode], value: int):
     if root is None:
         return TreeNode(value)
-    
-    if value == root.value:
-        return root
-    
     if value < root.value:
         root.left = insert_bst(root.left, value)
-    else:
+    elif value > root.value:
         root.right = insert_bst(root.right, value)
-    
+    else:
+        pass
     return root
 
 # ------------------------------------------------------------
@@ -102,18 +101,11 @@ def insert_bst(root: Optional[TreeNode], value: int):
 # ------------------------------------------------------------
 
 def build_class_bst():
-    init_id = 1019
-    num_stus = 6    
-    #create list
+    init_id = 1013
+    num_stus = 6
     nums = [init_id + k for k in range(num_stus)]
-    
-    #building balanced BST for 6 students
-    root = sorted_array_to_bst(nums)
-    
-    # out-of-order ID insertion
-    root = insert_bst(root, nums[-1] + 1)    
-    
-    print_all_nodes(root)    
-    # Tree height
-    max_layer = height(root)
-    print(f"Max layers for searching a student id: {max_layer}")
+add_ID = 1019
+PY102_ID = build_class_bst()
+PY102_ID = insert_bst(PY102_ID, add_ID)
+print_all_nodes(PY102_ID)
+print("Max iterations to search a student id:", height(PY102_ID))

@@ -39,13 +39,22 @@ def height(root):
 # ------------------------------------------------------------
 
 def _build(nums: List[int], left: int, right: int):
-    if left > right:
-        return None
-    midNode = (left + right) // 2
-    root = TreeNode(nums[midNode])
-    root.left = _build(nums, left, midNode - 1)
-    root.right = _build(nums, midNode + 1, right)
-    return root
+    # checking the middle int
+    mid = (left + right) //2
+    # tree root
+    root = TreeNode(nums[mid])
+    # building left sub-tree
+    if left <= mid - 1:
+        root.left = _build(nums,left,mid-1)
+    else:
+        root.left = None
+    # building right sub-tree
+    if right >= mid + 1:
+        root.right = _build(nums,mid+1,right)
+    else:
+        root.right = None
+    return root 
+    # raise NotImplementedError("Implement Q1 here.")
 
 def sorted_array_to_bst(nums: List[int]) -> Optional[TreeNode]:
    new_tree_root = _build(nums, 0, len(nums) - 1)
@@ -67,17 +76,13 @@ def sorted_array_to_bst(nums: List[int]) -> Optional[TreeNode]:
 
 def insert_bst(root: Optional[TreeNode], value: int):
     if root is None:
-        return TreeNode(value)
-    
-    if value == root.value:
-        return root
-    
-    if value < root.value:
+        root = TreeNode(value)
+    elif value < root.value:
         root.left = insert_bst(root.left, value)
-    else:
-        root.right = insert_bst(root.right, value)
-    
+    elif value > root.value:
+        root.right = insert_bst(root.right,value)
     return root
+    # raise NotImplementedError("Implement Q2 here.")
 
 # ------------------------------------------------------------
 # Q3 — BST in real life application
@@ -102,18 +107,21 @@ def insert_bst(root: Optional[TreeNode], value: int):
 # ------------------------------------------------------------
 
 def build_class_bst():
-    init_id = 1019
-    num_stus = 6    
-    #create list
+    init_id = 1001
+    num_stus = 6
     nums = [init_id + k for k in range(num_stus)]
-    
-    #building balanced BST for 6 students
     root = sorted_array_to_bst(nums)
-    
-    # out-of-order ID insertion
-    root = insert_bst(root, nums[-1] + 1)    
-    
-    print_all_nodes(root)    
-    # Tree height
-    max_layer = height(root)
-    print(f"Max layers for searching a student id: {max_layer}")
+
+    #inserting additinal out-of-orders IDs
+    root = insert_bst(root,1000)
+    root = insert_bst(root,1010)
+
+    #printing alll nodes of the final BST
+    print_all_nodes(root)
+
+    #max possible iterations 
+    max_iter = height(root)
+    print(max_iter)
+
+    # raise NotImplementedError("Implement Q3 here.")
+build_class_bst()

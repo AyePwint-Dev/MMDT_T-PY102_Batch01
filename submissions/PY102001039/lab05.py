@@ -17,7 +17,7 @@ def inorder(root):
 def print_all_nodes(root: TreeNode|None):
     if root is None:
         return
-    for value in inorder(root):
+    for value in inorder(root):   
         print(value)
 
 def height(root):
@@ -39,17 +39,26 @@ def height(root):
 # ------------------------------------------------------------
 
 def _build(nums: List[int], left: int, right: int):
+    #TODO
+
     if left > right:
         return None
-    midNode = (left + right) // 2
-    root = TreeNode(nums[midNode])
-    root.left = _build(nums, left, midNode - 1)
-    root.right = _build(nums, midNode + 1, right)
+
+    mid = (left + right) // 2
+    root = TreeNode(nums[mid])
+    root.left = _build(nums, left, mid - 1)
+    root.right = _build(nums, mid + 1, right)
     return root
 
 def sorted_array_to_bst(nums: List[int]) -> Optional[TreeNode]:
    new_tree_root = _build(nums, 0, len(nums) - 1)
    return new_tree_root
+
+# lst = [1,3,5,7,9,10]
+# bst = sorted_array_to_bst(lst)
+
+# print_all_nodes(bst)
+# print("H:", height(bst))
 
 # ------------------------------------------------------------
 # Q2 — insert_bst
@@ -66,18 +75,24 @@ def sorted_array_to_bst(nums: List[int]) -> Optional[TreeNode]:
 # ------------------------------------------------------------
 
 def insert_bst(root: Optional[TreeNode], value: int):
+    #TODO
     if root is None:
-        return TreeNode(value)
-    
-    if value == root.value:
-        return root
-    
-    if value < root.value:
-        root.left = insert_bst(root.left, value)
-    else:
-        root.right = insert_bst(root.right, value)
-    
-    return root
+        return TreeNode(value)    
+    if(value < root.value):
+        root.left = insert_bst(root.left,value)
+    if(value > root.value):
+        root.right = insert_bst(root.right,value)
+    return root    
+
+# bst1 = insert_bst(None, 30)
+# bst2 = insert_bst(bst1, 45)
+# bst3 = insert_bst(bst2, 58)
+# bst4 = insert_bst(bst3, 80)
+
+# bst5 = insert_bst(bst, 2)
+# bst6 = insert_bst(bst5, 6)
+
+# print_all_nodes(bst4)
 
 # ------------------------------------------------------------
 # Q3 — BST in real life application
@@ -101,19 +116,18 @@ def insert_bst(root: Optional[TreeNode], value: int):
 # 5) Print the max possible iterations to search a student id in your final BST. 
 # ------------------------------------------------------------
 
+
 def build_class_bst():
-    init_id = 1019
-    num_stus = 6    
-    #create list
+    # Create list of consecutive PY102 IDs for Group G
+    init_id = 1039
+    num_stus = 6
     nums = [init_id + k for k in range(num_stus)]
-    
-    #building balanced BST for 6 students
+
     root = sorted_array_to_bst(nums)
-    
-    # out-of-order ID insertion
-    root = insert_bst(root, nums[-1] + 1)    
-    
-    print_all_nodes(root)    
-    # Tree height
-    max_layer = height(root)
-    print(f"Max layers for searching a student id: {max_layer}")
+    root = insert_bst(root, 1044)
+
+    print_all_nodes(root)
+    maximum_iter = height(root)
+    print(f"Maximum iterations : {maximum_iter}")
+
+# build_class_bst()
